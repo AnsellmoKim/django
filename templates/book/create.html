@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block con %}
+
+    <h1>북마크생성</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        important? <input type="checkbox" name = 'im'><br><br>
+        SITENAME <input type="text" name = 'sn'><br><br>
+        SITEURL<input type="text" size="60" name = 'su'><br><br>
+        <button>북마크생성</button>
+    </form>
+{% endblock %}

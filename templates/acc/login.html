@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+
+{%block noauth%}
+    <h1>LOGIN PAGE</h1>
+
+    <form method="post" >
+        {%csrf_token%}
+        USERNAME<input type="text" name = 'uname'><br><br>
+        PASSWORD<input type="password" name="upass"><br><br>
+        <button>LOGIN</button>
+    </form>
+{%endblock%}

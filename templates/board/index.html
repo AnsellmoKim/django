@@ -1,0 +1,70 @@
+
+
+{% extends 'base.html' %}
+{% block con%}
+{% load mathfilters %}
+    <h1>게시판</h1>
+    <a href="{%url 'board:create' %}"><button>게시글 작성</button></a>
+
+    <br>
+    <table border="1">
+        <tr>
+            <th>NO</th>
+            <th>SUBJECT</th>
+            <th>SUMMARY</th>
+            <th>WRITER</th>
+            <th>LIKEY</th>
+        </tr>
+        {% if bset %}
+            {% for i in bset %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><a href="{% url 'board:detail' i.id %}">{{ i.subject }}</a></td>
+                    <td>{{ i.summary }}</td>
+                    <td>{{ i.writer }}</td>
+                    <td>{{ i.likey.all.count }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+        <tr>
+            <th colspan="5">첫 번째 게시글을 작성해주세요.🤣</th>
+        </tr>
+
+        {% endif %}
+    </table>
+
+{% if bset.has_previous %}
+    <a href="?page=1&cate={{cate}}&kw={{kw}}"><button>처음</button></a>
+    <a href="?page={{bset.previous_page_number}}&cate={{cate}}&kw={{kw}}"><button>이전</button></a>
+{% else %}
+    <button disabled>처음</button></a>
+    <button disabled>이전</button></a>
+{% endif %}
+
+
+{%for i in bset.paginator.page_range %}
+    {% if i >= bset.number|sub:3 and bset.number|add:2 >= i %}
+        <a href="?page={{i}}&cate={{cate}}&kw={{kw}}"><button style="{% if bset.number == i %} background-color: aquamarine; {%endif%}">{{i}}</button></a>
+    {%endif%}
+{% endfor %}
+
+{% if bset.has_next %}
+    <a href="?page={{bset.next_page_number}}&cate={{cate}}&kw={{kw}}"><button>다음</button></a>
+    <a href="?page={{bset.paginator.num_pages}}&cate={{cate}}&kw={{kw}}"><button>마지막</button></a>
+{% else %}
+    <button disabled>다음</button></a>
+    <button disabled>마지막</button></a>
+{% endif %}
+
+<br><br>
+
+<form>
+    <select name = "cate">
+        <option value = "sub" {% if cate == sub %} selected {% endif %} >제목</option>
+        <option value = "wri" {% if cate == wri %} selected {% endif %} >작성자</option>
+        <option value = "con" {% if cate == con %} selected {% endif %} >내용</option>
+    </select>
+    <input type="text" name = 'kw' value="{{kw}}" size="50">
+    <button>검색</button>
+</form>
+{% endblock %}

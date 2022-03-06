@@ -1,0 +1,45 @@
+<div class="menus">
+<a href="{%url 'acc:index' %}">HOME</a>
+{% if user.is_authenticated %}
+    <a href="{% url 'board:index' %}">BOARD</a>
+    <a href="{%url 'trans:index' %}">TRANS</a>
+    <a href="{% url 'acc:profile' %}">PROFILE</a>
+    <a href="{% url 'book:index' %}">BOOK</a>
+    <a href="{% url 'vote:index' %}">VOTE</a>
+    <a href="{%url 'acc:logout' %}">LOGOUT</a>
+
+{% else %}
+    <a href="{%url 'acc:login' %}">LOGIN</a>
+    <a href="{%url 'acc:signup' %}">SIGNUP</a>
+{% endif %}
+
+</div>
+{% if user.is_authenticated %}
+
+    {% block con %}
+        이미 인증된 사용자 입니다.
+        <a href="{% url 'board:index' %}"><button>BOARD</button></a>
+    {% endblock %}
+
+{% else %}
+
+    {% block noauth %}
+        <h1 style = "text-align: center">로그인이 필요한 페이지입니다.</h1> 
+        <a href="{%url 'acc:login' %}"><button>LOGIN</button></a>
+    {% endblock %}
+
+{% endif %}
+
+<style>
+    .menus > a{
+        text-decoration: none;
+        color : black;
+        font-size: 20px;
+        font-weight: bold;
+        margin-right: 20px;
+    }
+    .menus > a:hover{
+        color: red;
+    }
+  
+</style>

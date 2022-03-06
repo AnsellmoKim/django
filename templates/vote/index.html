@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block con %}
+
+    <h1>투표소</h1>
+
+    <ul>
+        {% for i in tset %}
+            <li><a href="{% url 'vote:detail' i.id %}">{{ i.subject }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block noauth %}
+    <h1><mark>SIGNUP PAGE</mark></h1>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        USERNAME<input type="text" name = 'uname'><br><br>
+        PASSWORD<input type="password" name = 'upass'><br><br>
+        COMMNET<textarea name = 'ucomm'></textarea><br><br>
+        <input type="file" name = 'upic'><br><br>
+        <button>REGIST</button>
+        
+    </form>
+{% endblock %}

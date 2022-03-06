@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{%block con%}
+<h1>{{b.subject}}</h1>
+<textarea cols = '50' rows="10" disabled>{{b.cotent}}</textarea>
+<img src = {{b.writer.getpic}} width = "200px">
+<br><br>
+<div>
+    
+    <a href="{%url 'board:index' %}"><button>게시판 홈</button></a>
+    {%if user == b.writer  %}
+    
+        <a href="{%url 'board:delete' b.id %}"><button>게시글 삭제</button></a>
+        <a href="{%url 'board:update' b.id %}"><button>게시글 수정</button></a>
+    
+    {%endif%}
+    {% if user in b.likey.all %}
+        <a href="{% url 'board:cancel' b.id %}"><button>싫어요</button></a>
+    {% else %}
+        <a href="{% url 'board:likey' b.id %}"><button>좋아요</button></a>
+    {% endif %}
+
+    <form method="post" action="{% url 'book:create' %}">
+        {% csrf_token %}
+        impo? <input type="checkbox" name ="im">
+        <button>포스팅</button>
+        <input type="hidden" name = "sn" value="[게시글]{{b.subject}}">
+        <input type="hidden" name = "su" value="{{ request.path }}">
+    </form>
+
+</div>
+<br><br>
+<hr>
+<form method = "post" action = "{% url 'board:creply' b.id %}">
+    {% csrf_token %}
+    <input type="text" size="50"name = 'com'>
+    <button>댓글생성</button>
+</form>
+<hr>
+{% if rset %}
+    {% for i in rset %}
+       <img src="{{i.replyer.getpic}}" width="100px">
+       <b>{{i.replyer}}</b><textarea rows="4" disabled>{{i.comment}}</textarea>
+      
+        <a href="{% url 'board:dreply' b.id i.id %}"><button>X</button></a><br>
+       
+    {% endfor %}
+{% else %}
+    <h4>처음 댓글을 달아주세요</h4>
+{% endif %}
+
+{% endblock %}

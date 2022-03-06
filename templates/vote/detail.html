@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block con %}
+
+{% load mathfilters %}
+
+    <h1>{{ t.subject }}</h1>
+    <img src = "{{ t.maker.getpic }}" width="200px"><br>
+    게시자 <b>{{t.maker}}</b><br>
+    <textarea cols="30" rows="5" disabled> {{ t.content }}</textarea>
+    <hr>
+    {% if user in t.voter.all %}
+        {% for i in cset %}
+            {{ i.chname }} {{i.chnum|div:t.voter.all.count|mul:100|floatformat:2}}<br> 
+        {% endfor %}
+    {% else %}
+        <form method="POST"  action="{% url 'vote:vote' t.id %}">
+            {% csrf_token %}
+            {% for i in cset %}
+                <input type="radio" name='ch' value="{{i.id}}">{{ i.chname }}<br>
+            {% endfor %}
+            <button>투표하기</button>
+        </form>
+    {% endif %}
+{% endblock %}

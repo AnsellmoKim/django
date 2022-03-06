@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block con  %}
+
+    <h1>{{user}}'s 북마크</h1>
+    
+    <a href="{% url 'book:create' %}"><button>북마크생성</button></a>
+
+    <br>
+
+    <ul>
+        {% for i in bset %}
+                <li><a href="{{i.site_url}}" {% if i.impo %} style="background-color: aquamarine;"{% endif %}>{{i.site_name}}</a></li>
+        {% endfor %}
+    </ul>
+    
+    
+
+{% endblock  %}
